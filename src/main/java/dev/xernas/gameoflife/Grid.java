@@ -1,7 +1,6 @@
 package dev.xernas.gameoflife;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Grid {
@@ -82,10 +81,18 @@ public class Grid {
         return cellSize;
     }
 
-    public List<Cell> getAllCells() {
+    public List<Cell> getAliveCells() {
         allCells.clear();
-        for (Cell[] cells : grid) allCells.addAll(Arrays.asList(cells).subList(0, grid[0].length));
+        for (Cell[] cells : grid) for (Cell cell : cells) if (cell.isAlive()) allCells.add(cell);
         return allCells;
+    }
+
+    public float getWorldWidth() {
+        return grid.length * (cellSize + AppConstants.CELL_SPACING);
+    }
+
+    public float getWorldHeight() {
+        return grid[0].length * (cellSize + AppConstants.CELL_SPACING);
     }
 
     public static class Cell {

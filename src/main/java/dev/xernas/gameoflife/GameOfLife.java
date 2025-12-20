@@ -46,7 +46,7 @@ public class GameOfLife {
     public GameOfLife(Window window, Grid grid) {
         this.window = window;
         this.grid = grid;
-        this.renderer = PhotonAPI.getRenderer(window, false);
+        this.renderer = PhotonAPI.getRenderer(window, true);
         this.camera = new Transform.CameraTransform();
         this.cameraStartPos = new Vector2f();
         this.cameraDeltaDir = new Vector2f();
@@ -75,15 +75,14 @@ public class GameOfLife {
             cameraDeltaDir.set(0);
 
             // Rendering
-            renderer.clear(Color.DARK_GRAY);
-            List<Grid.Cell> cells = grid.getAllCells();
+            renderer.clear();
+            List<Grid.Cell> cells = grid.getAliveCells();
             for (Grid.Cell cell : cells) {
                 renderer.render(shader, cellMesh, (m, s) -> {
                     s.setUniform("projectionMatrix", MatrixUtils.createOrthoMatrix(window));
-                    Vector3f position = new Vector3f(cell.getX() * (grid.getCellSize() + AppConstants.CELL_SPACING), cell.getY() * (grid.getCellSize() + AppConstants.CELL_SPACING), 0);
+                    Vector3f position = new Vector3f(cell.getX() * (grid.getCellSize() + AppConstants.CELL_SPACING) - grid.getWorldWidth() / 2, cell.getY() * (grid.getCellSize() + AppConstants.CELL_SPACING) - grid.getWorldHeight() / 2, 0);
                     s.setUniform("modelMatrix", MatrixUtils.createTransformationMatrix(new Transform(position).scale(grid.getCellSize())));
-                    s.setUniform("viewMatrix", MatrixUtils.create2DViewMatrix(camera));
-                    s.setUniform("isAlive", cell.isAlive());
+                    s.setUniform("viewMatrix", MatrixUtils.createViewMatrix(camera));
                 });
             }
 
@@ -166,9 +165,9 @@ public class GameOfLife {
         window.start();
         renderer.start();
 
-        Shader appShader = getShaderFromResources();
+        Shader gameShader = getShaderFromResources();
         Model cellModel = Models.createQuad();
-        shader = renderer.loadShader(appShader);
+        shader = renderer.loadShader(gameShader);
         cellMesh = renderer.loadMesh(cellModel);
 
         window.show();
@@ -184,13 +183,14 @@ public class GameOfLife {
         // Get mouse position in world space CONSIDERING CAMERA POSITION
         Vector2f mousePos = window.getInput().getMousePosition().toWorldSpace(window);
         mousePos.add(new Vector2f(camera.getPosition().x, camera.getPosition().y));
+        mousePos.add(new Vector2f(grid.getWorldWidth() / 2, grid.getWorldHeight() / 2));
         return mousePos;
     }
 
     private Shader getShaderFromResources() throws PhotonException {
         try {
-            Path vertexShaderPath = PathHelper.getResourcePath(AppConstants.VERTEX_SHADER_PATH);
-            Path fragmentShaderPath = PathHelper.getResourcePath(AppConstants.FRAGMENT_SHADER_PATH);
+            Path vertexShaderPath = PathHelper.getResourcePath(AppConstants.GAME_VERTEX_SHADER_PATH);
+            Path fragmentShaderPath = PathHelper.getResourcePath(AppConstants.GAME_FRAGMENT_SHADER_PATH);
             String vertexSource = PathHelper.getStringOf(vertexShaderPath);
             String fragmentSource = PathHelper.getStringOf(fragmentShaderPath);
             ShaderResource vertexResource = new ShaderResource(vertexShaderPath.getFileName().toString(), vertexSource);
