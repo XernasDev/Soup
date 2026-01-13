@@ -14,6 +14,20 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <name>Soup</name>
+    <description>A Game of Life implementation using Photon and Microscope.</description>
+    <developers>
+        <developer>
+            <name>Xernas78</name>
+            <url>https://github.com/Xernas78</url>
+        </developer>
+        <developer>
+            <name>gab400</name>
+            <url>https://github.com/gab4000</url>
+        </developer>
+    </developers>
+    <url>https://github.com/Xernas78/Soup</url>
+
     <dependencies>
         <dependency>
             <groupId>dev.xernas</groupId>
