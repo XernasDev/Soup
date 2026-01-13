@@ -42,7 +42,6 @@ public class GameOfLife {
     private boolean paused;
     private float fps;
     private int simulationSpeed = AppConstants.DEFAULT_SIMULATION_SPEED;
-    private int generationCount;
 
     public GameOfLife(Window window, Grid grid) {
         this.window = window;
@@ -52,7 +51,6 @@ public class GameOfLife {
         this.cameraStartPos = new Vector2f();
         this.cameraDeltaDir = new Vector2f();
         this.zoomLevel = grid.getCellSize();
-        this.generationCount = 0;
     }
 
     public void run() throws PhotonException {
@@ -68,7 +66,7 @@ public class GameOfLife {
             // Window
             window.update(renderer);
             if (!window.isOpen()) running = false;
-            window.setTitle(window.getDefaultTitle() + " | FPS: " + Math.round(fps) + " | Simulation speed: " + simulationSpeed + "| Generation: " + generationCount + (paused ? " | (Paused)" : ""));
+            window.setTitle(window.getDefaultTitle() + " | FPS: " + Math.round(fps) + " | Simulation speed: " + simulationSpeed + (paused ? " | (Paused)" : ""));
 
             // Input
             input();
@@ -99,7 +97,6 @@ public class GameOfLife {
             if (accumulator >= (float) 1 / simulationSpeed) {
                 if (!paused) {
                     grid.updateCells();
-                    generationCount++;
                 }
                 accumulator = 0f;
             }
