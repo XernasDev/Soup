@@ -193,7 +193,7 @@ public class GameOfLife {
         // Get mouse position in world space CONSIDERING CAMERA POSITION
         Vector2f mousePos = window.getInput().getMouse().toWorldSpace(window);
         mousePos.add(new Vector2f(camera.getPosition().x, camera.getPosition().y));
-        mousePos.add(new Vector2f(grid.getWorldWidth() / 2, grid.getWorldHeight() / 2));
+        mousePos.add(new Vector2f((grid.getWorldWidth() + Grid.cellSpacing) / 2, (grid.getWorldHeight() + Grid.cellSpacing) / 2));
         return mousePos;
     }
 
