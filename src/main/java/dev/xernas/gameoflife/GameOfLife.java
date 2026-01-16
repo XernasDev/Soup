@@ -196,6 +196,7 @@ public class GameOfLife {
         if (window.getInput().hasHold(Key.KEY_R)) {
             paused = true;
             grid.resetGrid();
+            generationCount = 0;
         }
     }
 
