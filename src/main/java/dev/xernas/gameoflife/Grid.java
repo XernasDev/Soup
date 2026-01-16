@@ -7,7 +7,7 @@ public class Grid {
 
     private final Cell[][] grid;
     private final List<Cell> allCells = new ArrayList<>();
-    public static float cellSpacing;
+    private static float cellSpacing;
     private float cellSize;
 
     public Grid(int width, int height, float cellSize) {
@@ -99,6 +99,15 @@ public class Grid {
 
     public float getWorldHeight() {
         return grid[0].length * (cellSize + cellSpacing);
+    }
+
+
+    public static float getCellSpacing() {
+        return cellSpacing;
+    }
+
+    public static void setCellSpacing(float cellSpacing) {
+        Grid.cellSpacing = cellSpacing;
     }
 
     public static class Cell {
