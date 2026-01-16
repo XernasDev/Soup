@@ -17,4 +17,8 @@ Except for the fact that all librairies with the exception of LWJGL are mine
 Just download the last release and run it with Java 21, it should be fine and please don't hesitate to report any bugs !
 
 ## Build
-You can build the project by having [Microscope](https://github.com/Xernas78/Microscope) in your maven local and just build it with maven with package or install !
+You can simply build the project using Maven :
+```bash
+mvn clean package
+```
+This will generate a runnable jar in the target folder (using Java 21) !
