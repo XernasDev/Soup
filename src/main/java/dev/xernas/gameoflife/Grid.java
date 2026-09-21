@@ -21,6 +21,7 @@ public class Grid {
         }
         this.cellSize = cellSize;
     }
+
     public Cell getCell(int x, int y) {
         if (x < 0 || x >= grid.length || y < 0 || y >= grid[0].length) {
             return null;

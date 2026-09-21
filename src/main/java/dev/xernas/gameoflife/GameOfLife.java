@@ -86,15 +86,15 @@ public class GameOfLife {
             renderer.clear();
             List<Grid.Cell> cells = grid.getAliveCells();
             for (Grid.Cell cell : cells) {
-                renderer.render(shader, cellMesh, (m, s) -> {
-                    s.setUniform("projectionMatrix", MatrixUtils.createOrthoMatrix(window));
+                renderer.render(shader, cellMesh, () -> {
+                    shader.setUniform("projectionMatrix", MatrixUtils.createOrthoMatrix(window));
                     Vector3f position = new Vector3f(
                             cell.getX() * (grid.getCellSize() + Grid.getCellSpacing()) - grid.getWorldWidth() / 2,
                             cell.getY() * (grid.getCellSize() + Grid.getCellSpacing()) - grid.getWorldHeight() / 2,
                             0f
                     );
-                    s.setUniform("modelMatrix", MatrixUtils.createTransformationMatrix(new Transform(position).scale(grid.getCellSize())));
-                    s.setUniform("viewMatrix", MatrixUtils.create2DViewMatrix(camera));
+                    shader.setUniform("modelMatrix", MatrixUtils.createTransformationMatrix(new Transform(position).scale(grid.getCellSize())));
+                    shader.setUniform("viewMatrix", MatrixUtils.create2DViewMatrix(camera));
                 });
             }
 
